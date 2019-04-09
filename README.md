@@ -45,7 +45,16 @@
 - #### 采用Gif-drwable加载gif
 
 ```
-GlideApp.with(context).asGifSo().load(gifs[i]).into(gifHolder.iv);
+ Glide.with(context).downloadOnly().load(gifs[i]).into(new SimpleTarget<File>() {
+            @Override
+            public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
+                try {
+                    gifHolder.iv.setImageDrawable(new GifDrawable(resource));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 ```
 
 Apk文件大小：2.1 MB (2,054,326 字节)
