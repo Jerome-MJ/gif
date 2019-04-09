@@ -7,7 +7,7 @@
 在项目中突然遇到需求要在recyclerview中加载Gif播放，此前Gif播放一直使用的Glide，但是发现原生Glide直接加载Gif问题颇多，例如设置播放循环次数，播放完成回调，播放卡顿等一系列问题，所以在此做出一个评测，选择最优的Gif加载方案。
 
 我们的页面是这样的要求，一个recyclerview的item中可能存在9张gif。
- ![image](https://github.com/Jerome-MJ/gif/raw/master/images/screen_one.jpg/){:height="1280" width="720"}
+ ![image](https://github.com/Jerome-MJ/gif/raw/master/images/screen_one.jpg/)
 
 还需要实现如果是有多张gif，按顺序循环播放。
 
