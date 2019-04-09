@@ -61,7 +61,7 @@ Apk文件大小：2.1 MB (2,054,326 字节)
   GlideApp.with(context).asGifFs().load(gifs[i]).into(gifHolder.iv);
 ```
 
-Apk文件大小：2.7 MB (2,653,354 字节)
+Apk文件大小：2.0 MB (1,980,350 字节)
 
 |      | 打开页面10s | 打开页面30s |
 | ---- | ----------- | ----------- |
