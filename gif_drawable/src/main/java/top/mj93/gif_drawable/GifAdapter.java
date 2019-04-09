@@ -5,25 +5,34 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import pl.droidsonroids.gif.GifDrawable;
+import top.mj93.gif_drawable.gif.GlideApp;
 
 
 public class GifAdapter extends RecyclerView.Adapter<GifAdapter.GifHolder> {
 
     private Context context;
     private String[] gifs;
+    ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(2);
 
     public GifAdapter(Context context, String[] gifs) {
         this.gifs = gifs;
@@ -40,9 +49,7 @@ public class GifAdapter extends RecyclerView.Adapter<GifAdapter.GifHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final GifHolder gifHolder, final int i) {
-        //as(FrameSequenceDrawable.class)
-//        GlideApp.with(context).asGifSo().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).load(gifs[i]).into(gifHolder.iv);
-        Glide.with(context).asFile().load(gifs[i]).into(new SimpleTarget<File>() {
+        Glide.with(context).downloadOnly().load(gifs[i]).into(new SimpleTarget<File>() {
             @Override
             public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
                 try {
@@ -55,8 +62,8 @@ public class GifAdapter extends RecyclerView.Adapter<GifAdapter.GifHolder> {
         gifHolder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(v.getContext(),BigImageViewActivity.class);
-                intent.putExtra("url",gifs[i]);
+                Intent intent = new Intent(v.getContext(), BigImageViewActivity.class);
+                intent.putExtra("url", gifs[i]);
                 v.getContext().startActivity(intent);
             }
         });
@@ -65,6 +72,12 @@ public class GifAdapter extends RecyclerView.Adapter<GifAdapter.GifHolder> {
     @Override
     public int getItemCount() {
         return gifs.length;
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull GifHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.with(context).clear(holder.iv);
     }
 
     static class GifHolder extends RecyclerView.ViewHolder {

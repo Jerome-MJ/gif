@@ -28,11 +28,12 @@ public class BigImageViewActivity extends Activity {
         setContentView(R.layout.big_image);
         String url = getIntent().getStringExtra("url");
         final ImageView bigImage = findViewById(R.id.big_image);
-        Glide.with(this).asFile().load(url).into(new SimpleTarget<File>() {
-            @Override
-            public void onResourceReady(@NonNull File resource, @Nullable Transition<? super File> transition) {
-                bigImage.setImageURI(Uri.fromFile(resource));
-            }
-        });
+        Glide.with(this).asGif().load(url).into(bigImage);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }
